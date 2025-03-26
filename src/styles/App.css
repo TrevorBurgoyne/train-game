@@ -12,8 +12,8 @@ h1 {
 
 .game-board {
     display: grid;
-    grid-template-columns: repeat(3, 100px);
-    grid-template-rows: repeat(3, 100px);
+    grid-template-columns: repeat(var(--grid-size), 100px);
+    grid-template-rows: repeat(var(--grid-size), 100px);
     gap: 5px;
     justify-content: center;
 }

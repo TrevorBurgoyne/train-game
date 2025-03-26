@@ -5,7 +5,7 @@ import PathValidator from '../utils/PathValidator'; // Ensure correct import
 type TileType = 'obstacle' | 'empty';
 type Coordinate = [number, number];
 
-const GRID_SIZE = 10;
+const GRID_SIZE = 4;
 
 const GameBoard: FC = () => {
     const [grid, setGrid] = useState<TileType[][]>([]);
@@ -15,6 +15,8 @@ const GameBoard: FC = () => {
     const [isGameOver, setIsGameOver] = useState(false);
 
     useEffect(() => {
+        // Set --grid-size for css grid
+        document.documentElement.style.setProperty('--grid-size', GRID_SIZE.toString());
         initializeGame();
     }, []);
 
