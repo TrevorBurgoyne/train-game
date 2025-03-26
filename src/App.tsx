@@ -4,7 +4,7 @@ import GameBoard from './components/GameBoard';
 const App: React.FC = () => {
   return (
     <div className="App">
-      <h1>Path Game</h1>
+      <h1>Train Game</h1>
       <GameBoard />
     </div>
   );

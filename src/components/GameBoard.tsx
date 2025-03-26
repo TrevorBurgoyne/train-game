@@ -13,6 +13,7 @@ const GameBoard: FC = () => {
     const [goalTile, setGoalTile] = useState<Coordinate | null>(null);
     const [userPath, setUserPath] = useState<Coordinate[]>([]);
     const [isGameOver, setIsGameOver] = useState(false);
+    const [currentPosition, setCurrentPosition] = useState<Coordinate | null>(null);
 
     useEffect(() => {
         // Set --grid-size for css grid
@@ -28,6 +29,7 @@ const GameBoard: FC = () => {
 
         setStartTile(start);
         setGoalTile(goal);
+        setCurrentPosition(start); // Set the starting position
         setGrid(newGrid.map((row, rowIndex) => 
             row.map((tile, colIndex) => 
                 path.some(p => p[0] === rowIndex && p[1] === colIndex) ? 'empty' : tile
@@ -45,7 +47,7 @@ const GameBoard: FC = () => {
     };
 
     const generatePath = (start: Coordinate, goal: Coordinate): Coordinate[] => {
-        // Simple path generation logic (for demonstration purposes)
+        // Simple path generation logic
         const path = [start];
         let current = start;
 
@@ -60,36 +62,58 @@ const GameBoard: FC = () => {
         return path;
     };
 
-    const handleTileClick = (row: number, col: number): void => {
-        if (isGameOver) return;
+    const handleMove = (direction: 'left' | 'straight' | 'right'): void => {
+        if (isGameOver || !currentPosition || !startTile || !goalTile) return;
 
-        const newUserPath: Coordinate[] = [...userPath, [row, col]];
-        setUserPath(newUserPath);
+        const [row, col] = currentPosition;
+        let nextPosition: Coordinate | null = null;
 
-        if (!PathValidator.validatePath(newUserPath, startTile, goalTile)) {
-            setIsGameOver(true);
-        } else if (newUserPath.length === grid.flat().filter(tile => tile === 'empty').length) {
-            alert('Congratulations! You completed the path!');
-            setIsGameOver(true);
+        // Determine the next position based on the direction
+        if (direction === 'straight') {
+            nextPosition = [row + 1, col]; // Example: Move down
+        } else if (direction === 'left') {
+            nextPosition = [row, col - 1]; // Example: Move left
+        } else if (direction === 'right') {
+            nextPosition = [row, col + 1]; // Example: Move right
+        }
+
+        if (nextPosition) {
+            const newUserPath: Coordinate[] = [...userPath, nextPosition];
+            setUserPath(newUserPath);
+            setCurrentPosition(nextPosition);
+
+            if (!PathValidator.validatePath(newUserPath, startTile, goalTile)) {
+                setIsGameOver(true);
+                alert('Game Over! You made an invalid move.');
+            } else if (nextPosition[0] === goalTile[0] && nextPosition[1] === goalTile[1]) {
+                alert('Congratulations! You completed the path!');
+                setIsGameOver(true);
+            }
         }
     };
 
     return (
-        <div className="game-board">
-            {grid.map((row, rowIndex) => (
-                <div key={rowIndex} className="grid-row">
-                    {row.map((tile, colIndex) => (
-                        <Tile
-                            key={colIndex}
-                            row={rowIndex}
-                            col={colIndex}
-                            type={tile}
-                            onClick={(r, c) => handleTileClick(r, c)} // Ensure correct typing
-                        />
-                    ))}
-                </div>
-            ))}
-            {isGameOver && <div className="game-over">Game Over!</div>}
+        <div>
+            <div className="game-board">
+                {grid.map((row, rowIndex) => (
+                    <div key={rowIndex} className="grid-row">
+                        {row.map((tile, colIndex) => (
+                            <Tile
+                                key={colIndex}
+                                row={rowIndex}
+                                col={colIndex}
+                                type={tile}
+                                onClick={() => {}}
+                            />
+                        ))}
+                    </div>
+                ))}
+            </div>
+            <div className="controls">
+                <button onClick={() => handleMove('left')} disabled={isGameOver}>Left</button>
+                <button onClick={() => handleMove('straight')} disabled={isGameOver}>Straight</button>
+                <button onClick={() => handleMove('right')} disabled={isGameOver}>Right</button>
+            </div>
         </div>
     );
 };
