@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 type TileProps = {
     row: number;
     col: number;
-    type: 'obstacle' | 'empty';
+    type: 'obstacle' | 'empty' | 'start' | 'goal';
     onClick: (row: number, col: number) => void;
 };
 
@@ -13,7 +13,9 @@ const Tile: FC<TileProps> = ({ row, col, type, onClick }) => {
             className={`tile ${type}`}
             onClick={() => onClick(row, col)}
         >
-            {/* Render tile content */}
+            {/* Optionally render content for start/goal tiles */}
+            {type === 'start' && 'S'}
+            {type === 'goal' && 'G'}
         </div>
     );
 };

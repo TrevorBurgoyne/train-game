@@ -32,13 +32,15 @@ h1 {
 }
 
 .tile.start {
-    background-color: #4caf50;
+    background-color: #4caf50; /* Green for start tile */
     color: white;
+    font-weight: bold;
 }
 
 .tile.goal {
-    background-color: #f44336;
+    background-color: #f44336; /* Red for goal tile */
     color: white;
+    font-weight: bold;
 }
 
 .tile.obstacle {

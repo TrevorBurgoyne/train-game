@@ -2,7 +2,7 @@ import React, { FC, useState, useEffect } from 'react';
 import Tile from './Tile';
 import PathValidator from '../utils/PathValidator'; // Ensure correct import
 
-type TileType = 'obstacle' | 'empty';
+type TileType = 'obstacle' | 'empty' | 'start' | 'goal';
 type Coordinate = [number, number];
 
 const GRID_SIZE = 4;
@@ -26,14 +26,16 @@ const GameBoard: FC = () => {
         const start = getRandomEdgeTile();
         const goal = getRandomEdgeTile(start);
         const path = generatePath(start, goal);
-
+    
         setStartTile(start);
         setGoalTile(goal);
         setCurrentPosition(start); // Set the starting position
-        setGrid(newGrid.map((row, rowIndex) => 
-            row.map((tile, colIndex) => 
-                path.some(p => p[0] === rowIndex && p[1] === colIndex) ? 'empty' : tile
-            )
+        setGrid(newGrid.map((row, rowIndex) =>
+            row.map((tile, colIndex) => {
+                if (start[0] === rowIndex && start[1] === colIndex) return 'start';
+                if (goal[0] === rowIndex && goal[1] === colIndex) return 'goal';
+                return path.some(p => p[0] === rowIndex && p[1] === colIndex) ? 'empty' : tile;
+            })
         ));
     };
 
