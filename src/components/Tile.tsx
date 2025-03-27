@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import '../styles/Tile.css';
 import '../styles/Rail.css';
+import '../styles/Obstacle.css';
 
 export type TileType = 'obstacle' | 'empty' | 'start' | 'goal' | 'rail';
 export type RailType = 'straight' | 'left' | 'right';
