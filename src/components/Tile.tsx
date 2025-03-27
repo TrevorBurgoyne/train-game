@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-export type TileType = 'obstacle' | 'empty' | 'start' | 'goal' | 'rail';
+export type TileType = 'obstacle' | 'empty' | 'goal' | 'rail';
 export type RailType = 'straight' | 'left' | 'right';
 export type Direction = 'north' | 'east' | 'south' | 'west';
 export type Coordinate = [number, number];

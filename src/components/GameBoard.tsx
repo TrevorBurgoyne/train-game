@@ -34,7 +34,7 @@ const GameBoard: FC = () => {
         setGrid(newGrid.map((row, rowIndex) =>
             row.map((tile_props, colIndex) => {
                 if (start[0] === rowIndex && start[1] === colIndex) {
-                    return { tile_type: 'start', rail_type: 'straight', direction: getDirection(start, path[1]) };
+                    return { tile_type: 'rail', rail_type: 'straight', direction: getDirection(start, path[1]) };
                 }
                 if (goal[0] === rowIndex && goal[1] === colIndex) {
                     return { tile_type: 'goal', rail_type: 'straight', direction: getDirection(path[path.length - 2], goal) };

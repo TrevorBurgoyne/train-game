@@ -75,6 +75,31 @@ h1 {
     cursor: not-allowed;
 }
 
+/* Base rail rotation (north is the default, no rotation) */
+.tile.rail.north {
+    transform: rotate(0deg);
+}
+
+/* Rotate 90 degrees clockwise for east */
+.tile.rail.east {
+    transform: rotate(90deg);
+}
+
+/* Rotate 180 degrees for south */
+.tile.rail.south {
+    transform: rotate(180deg);
+}
+
+/* Rotate 270 degrees clockwise (or -90 degrees) for west */
+.tile.rail.west {
+    transform: rotate(270deg);
+}
+
+/* Ensure the rotation origin is the center of the tile */
+.tile.rail {
+    transform-origin: center;
+}
+
 /* Straight rail */
 .tile.rail.straight {
     position: relative;
