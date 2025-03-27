@@ -1,7 +1,7 @@
 import { FC } from 'react';
+import Tree from './obstacles/Tree';
 import '../styles/Tile.css';
 import '../styles/Rail.css';
-import '../styles/Obstacle.css';
 
 export type TileType = 'obstacle' | 'empty' | 'start' | 'goal' | 'rail';
 export type RailType = 'straight' | 'left' | 'right';
@@ -39,6 +39,7 @@ const Tile: FC<TileProps> = ({tile_type, rail_type = null, direction = null, is_
     return (
         <div className={`tile ${tile_class} ${rail_class} ${direction}`}>
             {is_invalid && <div className="invalid-overlay"></div>}
+            {tile_type === 'obstacle' && <Tree />}
         </div>
     );
 };
