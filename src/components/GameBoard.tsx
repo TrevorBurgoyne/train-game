@@ -9,6 +9,7 @@ const GameBoard: FC = () => {
     const [isGameOver, setIsGameOver] = useState(false);
     const [path, setPath] = useState<Coordinate[]>([]);
     const [pathIndex, setPathIndex] = useState(0);
+    const [autoRestart, setAutoRestart] = useState(true);
 
     useEffect(() => {
         // Set --grid-size for css grid
@@ -59,7 +60,7 @@ const GameBoard: FC = () => {
             // Calculate Manhattan distance between the current tile and the excluded tile
             const distance = Math.abs(tile[0] - excludeTile[0]) + Math.abs(tile[1] - excludeTile[1]);
             // Ensure the tiles don't start too close together
-            return distance >= GRID_SIZE - 1; 
+            return distance >= GRID_SIZE; 
         });
     
         return filteredEdges[Math.floor(Math.random() * filteredEdges.length)] as Coordinate;
@@ -120,11 +121,19 @@ const GameBoard: FC = () => {
             )
         );
 
+        let game_over = false;
         if (invalidMove) {
-            setIsGameOver(true);
+            game_over = true;
         } else if (nextPosition[0] === goalTile[0] && nextPosition[1] === goalTile[1]) {
-            setIsGameOver(true);
+            game_over = true;
         }
+
+        // Restart the game after 1 second if autoRestart is enabled
+        if (game_over && autoRestart) {
+            setTimeout(() => initializeGame(), 1000); 
+        }
+
+        setIsGameOver(game_over);
 
         // Increment the path index
         setPathIndex(pathIndex + 1);
@@ -154,6 +163,16 @@ const GameBoard: FC = () => {
             </div>
             <div className="controls">
                 <button onClick={initializeGame}>New Game</button>
+            </div>
+            <div className="controls">
+                <label>
+                    <input
+                        type="checkbox"
+                        checked={autoRestart}
+                        onChange={(e) => setAutoRestart(e.target.checked)}
+                    />
+                    Auto-Restart
+                </label>
             </div>
         </div>
     );
