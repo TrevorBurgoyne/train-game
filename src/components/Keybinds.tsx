@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { getAllKeybinds, setKeybind } from '../utils/keybind_utils';
 import '../styles/Keybinds.css';
 
@@ -9,6 +9,7 @@ type KeybindsProps = {
 const Keybinds: React.FC<KeybindsProps> = ({ onEditingKeybind }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [editingKeybind, setEditingKeybind] = useState<string | null>(null);
+    const inputRef = useRef<HTMLInputElement | null>(null); // Ref for the input field
 
     const handleKeybindChange = (action: string, event: React.KeyboardEvent<HTMLInputElement>) => {
         setKeybind(action as any, event.key); // Update the keybind
@@ -20,6 +21,12 @@ const Keybinds: React.FC<KeybindsProps> = ({ onEditingKeybind }) => {
         setEditingKeybind(action);
         onEditingKeybind(true); // Notify parent that editing has started
     };
+
+    useEffect(() => {
+        if (editingKeybind && inputRef.current) {
+            inputRef.current.focus(); // Focus the input field when it is rendered
+        }
+    }, [editingKeybind]);
 
     return (
         <div className={`keybinds-container ${isExpanded ? 'expanded' : 'minimized'}`}>
@@ -34,6 +41,7 @@ const Keybinds: React.FC<KeybindsProps> = ({ onEditingKeybind }) => {
                             <span>{action}: </span>
                             {editingKeybind === action ? (
                                 <input
+                                    ref={inputRef} // Attach the ref to the input field
                                     type="text"
                                     value={key}
                                     readOnly
