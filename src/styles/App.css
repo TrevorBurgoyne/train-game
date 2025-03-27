@@ -57,6 +57,12 @@ h1 {
     color: white;
 }
 
+.tile.rail {
+    background-color: #2196f3; /* Blue for user path */
+    color: white;
+    font-weight: bold;
+}
+
 .controls {
     margin-top: 20px;
     display: flex;

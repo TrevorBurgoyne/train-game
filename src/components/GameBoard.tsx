@@ -1,18 +1,14 @@
 import React, { FC, useState, useEffect } from 'react';
-import Tile from './Tile';
+import Tile, { TileProps, RailType, Coordinate, getDirection } from './Tile';
 import PathValidator from '../utils/PathValidator'; // Ensure correct import
-
-type TileType = 'obstacle' | 'empty' | 'start' | 'goal';
-type Coordinate = [number, number];
 
 const GRID_SIZE = 4;
 
 const GameBoard: FC = () => {
-    const [grid, setGrid] = useState<TileType[][]>([]);
-    const [startTile, setStartTile] = useState<Coordinate | null>(null);
+    const [grid, setGrid] = useState<TileProps[][]>([]);
     const [goalTile, setGoalTile] = useState<Coordinate | null>(null);
-    const [userPath, setUserPath] = useState<Coordinate[]>([]);
     const [isGameOver, setIsGameOver] = useState(false);
+    const [prevPosition, setPrevPosition] = useState<Coordinate | null>(null);
     const [currentPosition, setCurrentPosition] = useState<Coordinate | null>(null);
 
     useEffect(() => {
@@ -22,19 +18,31 @@ const GameBoard: FC = () => {
     }, []);
 
     const initializeGame = (): void => {
-        const newGrid = Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill('obstacle') as TileType[]);
+        // Generate a new grid of obstacles
+        const newGrid: TileProps[][] = Array.from({ length: GRID_SIZE }, () =>
+            Array.from({ length: GRID_SIZE }, () => ({ tile_type: 'obstacle', rail_type: null, direction: null }))
+        );
         const start = getRandomEdgeTile();
         const goal = getRandomEdgeTile(start);
         const path = generatePath(start, goal);
-    
-        setStartTile(start);
+        
+         
+        setPrevPosition(start);
+        // The user starts at the tile after the start tile
+        setCurrentPosition(path[1]);
         setGoalTile(goal);
-        setCurrentPosition(start); // Set the starting position
         setGrid(newGrid.map((row, rowIndex) =>
-            row.map((tile, colIndex) => {
-                if (start[0] === rowIndex && start[1] === colIndex) return 'start';
-                if (goal[0] === rowIndex && goal[1] === colIndex) return 'goal';
-                return path.some(p => p[0] === rowIndex && p[1] === colIndex) ? 'empty' : tile;
+            row.map((tile_props, colIndex) => {
+                if (start[0] === rowIndex && start[1] === colIndex) {
+                    return { tile_type: 'start', rail_type: 'straight', direction: getDirection(start, path[1]) };
+                }
+                if (goal[0] === rowIndex && goal[1] === colIndex) {
+                    return { tile_type: 'goal', rail_type: 'straight', direction: getDirection(path[path.length - 2], goal) };
+                }
+                if (path.some(p => p[0] === rowIndex && p[1] === colIndex)) {
+                    return { tile_type: 'empty', rail_type: null, direction: null };
+                }
+                return tile_props;
             })
         ));
     };
@@ -64,34 +72,33 @@ const GameBoard: FC = () => {
         return path;
     };
 
-    const handleMove = (direction: 'left' | 'straight' | 'right'): void => {
-        if (isGameOver || !currentPosition || !startTile || !goalTile) return;
-
-        const [row, col] = currentPosition;
-        let nextPosition: Coordinate | null = null;
-
-        // Determine the next position based on the direction
-        if (direction === 'straight') {
-            nextPosition = [row + 1, col]; // Example: Move down
-        } else if (direction === 'left') {
-            nextPosition = [row, col - 1]; // Example: Move left
-        } else if (direction === 'right') {
-            nextPosition = [row, col + 1]; // Example: Move right
-        }
-
-        if (nextPosition) {
-            const newUserPath: Coordinate[] = [...userPath, nextPosition];
-            setUserPath(newUserPath);
-            setCurrentPosition(nextPosition);
-
-            if (!PathValidator.validatePath(newUserPath, startTile, goalTile)) {
-                setIsGameOver(true);
-                alert('Game Over! You made an invalid move.');
-            } else if (nextPosition[0] === goalTile[0] && nextPosition[1] === goalTile[1]) {
-                alert('Congratulations! You completed the path!');
-                setIsGameOver(true);
-            }
-        }
+    const handleMove = (rail_type: RailType): void => {
+        if (isGameOver || !prevPosition || !currentPosition || !goalTile) return;
+    
+        // Calculate the direction of the current 
+           
+    
+        // setCurrentPosition(nextPosition);
+    
+        // // Update the grid to mark the user's path
+        // setGrid(prevGrid =>
+        //     prevGrid.map((row, rowIndex) =>
+        //         row.map((tile_props, colIndex) => {
+        //             if (rowIndex === nextPosition[0] && colIndex === nextPosition[1]) {
+        //                 return { tile_type: 'rail', rail_type: 'straight', direction: getDirection(currentPosition, nextPosition) };
+        //             }
+        //             return tile_props;
+        //         })
+        //     )
+        // );
+    
+        // if (!PathValidator.validatePath(startTile, goalTile)) {
+        //     setIsGameOver(true);
+        //     alert('Game Over! You made an invalid move.');
+        // } else if (nextPosition[0] === goalTile[0] && nextPosition[1] === goalTile[1]) {
+        //     alert('Congratulations! You completed the path!');
+        //     setIsGameOver(true);
+        // }
     };
 
     return (
@@ -102,10 +109,9 @@ const GameBoard: FC = () => {
                         {row.map((tile, colIndex) => (
                             <Tile
                                 key={colIndex}
-                                row={rowIndex}
-                                col={colIndex}
-                                type={tile}
-                                onClick={() => {}}
+                                tile_type={tile.tile_type}
+                                rail_type={tile.rail_type}
+                                direction={tile.direction}
                             />
                         ))}
                     </div>
