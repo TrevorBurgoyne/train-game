@@ -146,3 +146,17 @@ h1 {
 .tile.rail.straight::after {
     right: 25%; /* Position the second rail */
 }
+
+/* Single curved rail */
+.tile.rail.left::before {
+    content: '';
+    position: absolute;
+    width: 35%; /* Half the width of the tile */
+    height: 35%; /* Half the height of the tile */
+    border: 10px solid gray; /* Rail color */
+    border-radius: 0 50% 0 0; /* Concave curve on the top-right corner */
+    box-sizing: border-box;
+    left: 0; /* Align to the left side */
+    bottom: 0; /* Align to the bottom side */
+    border-width: 10px 10px 0 0; /* Only show the top and right borders */
+}
