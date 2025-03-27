@@ -23,7 +23,7 @@ export const getDirection = (source: Coordinate, dest: Coordinate): Direction =>
 const Tile: FC<TileProps> = ({tile_type, rail_type = null, direction = null }) => {
     return (
         <div
-            className={`tile ${tile_type} ${rail_type}-${direction}`}
+            className={`tile ${tile_type} ${rail_type} ${direction}`}
         />
     );
 };
