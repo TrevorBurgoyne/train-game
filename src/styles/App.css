@@ -81,15 +81,15 @@ h1 {
 }
 
 .tile.rail.east {
-    rotate: -90deg;
+    rotate: 90deg;
 }
 
 .tile.rail.south {
-    rotate: -180deg;
+    rotate: 180deg;
 }
 
 .tile.rail.west {
-    rotate: -270deg;
+    rotate: 270deg;
 }
 
 /* Ensure the rotation origin is the center of the tile */

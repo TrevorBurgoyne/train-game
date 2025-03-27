@@ -8,8 +8,8 @@ const GameBoard: FC = () => {
     const [grid, setGrid] = useState<TileProps[][]>([]);
     const [goalTile, setGoalTile] = useState<Coordinate | null>(null);
     const [isGameOver, setIsGameOver] = useState(false);
-    const [prevPosition, setPrevPosition] = useState<Coordinate | null>(null);
-    const [currentPosition, setCurrentPosition] = useState<Coordinate | null>(null);
+    const [path, setPath] = useState<Coordinate[]>([]);
+    const [pathIndex, setPathIndex] = useState(0);
 
     useEffect(() => {
         // Set --grid-size for css grid
@@ -26,10 +26,9 @@ const GameBoard: FC = () => {
         const goal = getRandomEdgeTile(start);
         const path = generatePath(start, goal);
         
-         
-        setPrevPosition(start);
+        setPath(path);
         // The user starts at the tile after the start tile
-        setCurrentPosition(path[1]);
+        setPathIndex(1);
         setGoalTile(goal);
         setGrid(newGrid.map((row, rowIndex) =>
             row.map((tile_props, colIndex) => {
@@ -72,25 +71,28 @@ const GameBoard: FC = () => {
         return path;
     };
 
-    const handleMove = (rail_type: RailType): void => {
-        if (isGameOver || !prevPosition || !currentPosition || !goalTile) return;
+    const placeRail = (rail_type: RailType): void => {
+        if (isGameOver || !goalTile) return;
     
-        // Calculate the direction of the current 
-           
+        // Calculate the direction we're moving
+        const prevPosition = path[pathIndex - 1];
+        const currentPosition = path[pathIndex];
+        const direction = getDirection(prevPosition, currentPosition);
     
-        // setCurrentPosition(nextPosition);
-    
-        // // Update the grid to mark the user's path
-        // setGrid(prevGrid =>
-        //     prevGrid.map((row, rowIndex) =>
-        //         row.map((tile_props, colIndex) => {
-        //             if (rowIndex === nextPosition[0] && colIndex === nextPosition[1]) {
-        //                 return { tile_type: 'rail', rail_type: 'straight', direction: getDirection(currentPosition, nextPosition) };
-        //             }
-        //             return tile_props;
-        //         })
-        //     )
-        // );
+        // Update the grid to mark the user's rail
+        setGrid(prevGrid =>
+            prevGrid.map((row, rowIndex) =>
+                row.map((tile_props, colIndex) => {
+                    if (rowIndex === currentPosition[0] && colIndex === currentPosition[1]) {
+                        return { tile_type: 'rail', rail_type: rail_type, direction: direction };
+                    }
+                    return tile_props;
+                })
+            )
+        );
+
+        // Increment the path index
+        setPathIndex(pathIndex + 1);
     
         // if (!PathValidator.validatePath(startTile, goalTile)) {
         //     setIsGameOver(true);
@@ -118,9 +120,9 @@ const GameBoard: FC = () => {
                 ))}
             </div>
             <div className="controls">
-                <button onClick={() => handleMove('left')} disabled={isGameOver}>Left</button>
-                <button onClick={() => handleMove('straight')} disabled={isGameOver}>Straight</button>
-                <button onClick={() => handleMove('right')} disabled={isGameOver}>Right</button>
+                <button onClick={() => placeRail('left')} disabled={isGameOver}>Left</button>
+                <button onClick={() => placeRail('straight')} disabled={isGameOver}>Straight</button>
+                <button onClick={() => placeRail('right')} disabled={isGameOver}>Right</button>
             </div>
         </div>
     );

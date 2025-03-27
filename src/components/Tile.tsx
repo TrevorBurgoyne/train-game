@@ -12,7 +12,6 @@ export type TileProps = {
 
 // Function to get the direction based on a dest and source coordinate
 export const getDirection = (source: Coordinate, dest: Coordinate): Direction => {
-    console.log(source, dest);
     if (source[0] < dest[0]) return 'east';
     if (source[0] > dest[0]) return 'west';
     if (source[1] < dest[1]) return 'south';
