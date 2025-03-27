@@ -1,7 +1,10 @@
 import { FC, useState, useEffect } from 'react';
 import Tile, { TileProps, RailType, Coordinate, getDirection } from './Tile';
+import { getKeybind } from '../utils/keybind_utils';
 
 const GRID_SIZE = 4;
+// Set --grid-size for css grid
+document.documentElement.style.setProperty('--grid-size', GRID_SIZE.toString());
 
 const GameBoard: FC = () => {
     const [grid, setGrid] = useState<TileProps[][]>([]);
@@ -12,8 +15,42 @@ const GameBoard: FC = () => {
     const [autoRestart, setAutoRestart] = useState(true);
 
     useEffect(() => {
-        // Set --grid-size for css grid
-        document.documentElement.style.setProperty('--grid-size', GRID_SIZE.toString());
+        const handleKeyPress = (event: KeyboardEvent) => {
+            if (isGameOver) return;
+    
+            switch (event.key) {
+                case getKeybind('left'):
+                    event.preventDefault();
+                    placeRail('left');
+                    break;
+                case getKeybind('straight'):
+                    event.preventDefault();
+                    placeRail('straight');
+                    break;
+                case getKeybind('right'):
+                    event.preventDefault();
+                    placeRail('right');
+                    break;
+                case getKeybind('newGame'):
+                    event.preventDefault();
+                    initializeGame();
+                    break;
+                case getKeybind('toggleAutoRestart'):
+                    event.preventDefault();
+                    setAutoRestart(prev => !prev);
+                    break;
+                default:
+                    break;
+            }
+        };
+    
+        window.addEventListener('keydown', handleKeyPress);
+        return () => {
+            window.removeEventListener('keydown', handleKeyPress);
+        };
+    }, [grid, goalTile, isGameOver, path, pathIndex, autoRestart]);
+
+    useEffect(() => {
         initializeGame();
     }, []);
 
@@ -25,7 +62,6 @@ const GameBoard: FC = () => {
             Array.from({ length: GRID_SIZE }, () => ({ tile_type: 'obstacle' }))
         );
 
-        // Generate a new path
         // If we can't generate a path,
         // we choose a new start and goal tile
         let path: Coordinate[] = [];

@@ -1,0 +1,24 @@
+.keybinds {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.keybind-item {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.keybind-item span {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.keybind-item button,
+.keybind-item input {
+    padding: 5px;
+    font-size: 14px;
+}
