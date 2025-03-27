@@ -24,9 +24,18 @@ const GameBoard: FC = () => {
         const newGrid: TileProps[][] = Array.from({ length: GRID_SIZE }, () =>
             Array.from({ length: GRID_SIZE }, () => ({ tile_type: 'obstacle' }))
         );
-        const start = getRandomEdgeTile();
-        const goal = getRandomEdgeTile(start);
-        const path = generatePath(start, goal);
+
+        // Generate a new path
+        // If we can't generate a path,
+        // we choose a new start and goal tile
+        let path: Coordinate[] = [];
+        let start: Coordinate = [0, 0];
+        let goal: Coordinate = [0, 0];
+        while (path.length === 0) {
+            start = getRandomEdgeTile();
+            goal = getRandomEdgeTile(start);
+            path = generatePath(start, goal);
+        }
         
         setPath(path);
         // The user starts at the tile after the start tile
@@ -67,19 +76,67 @@ const GameBoard: FC = () => {
     };
 
     const generatePath = (start: Coordinate, goal: Coordinate): Coordinate[] => {
-        // Simple path generation logic
-        const path = [start];
-        let current = start;
+        const MAX_RETRIES = 5;
+        let retries = 0;
+        
+        while (retries < MAX_RETRIES) {
+            const path = [start];
+            let current = start;
 
-        while (current[0] !== goal[0] || current[1] !== goal[1]) {
-            if (current[0] < goal[0]) current = [current[0] + 1, current[1]];
-            else if (current[0] > goal[0]) current = [current[0] - 1, current[1]];
-            else if (current[1] < goal[1]) current = [current[0], current[1] + 1];
-            else if (current[1] > goal[1]) current = [current[0], current[1] - 1];
-            path.push(current);
+            while (current[0] !== goal[0] || current[1] !== goal[1]) {
+                const possibleMoves: Coordinate[] = [];
+        
+                // Add valid moves to the list of possible moves
+                if (current[0] < GRID_SIZE - 1) possibleMoves.push([current[0] + 1, current[1]]); // Move down
+                if (current[0] > 0) possibleMoves.push([current[0] - 1, current[1]]); // Move up
+                if (current[1] < GRID_SIZE - 1) possibleMoves.push([current[0], current[1] + 1]); // Move right
+                if (current[1] > 0) possibleMoves.push([current[0], current[1] - 1]); // Move left
+        
+                // Filter out moves that would backtrack to the previous position
+                const previous = path[path.length - 2];
+                const validMoves = possibleMoves.filter(
+                    move => !previous || (move[0] !== previous[0] || move[1] !== previous[1])
+                );
+        
+                // Filter out moves that would create loops or branches
+                const nonBranchingMoves = validMoves.filter(move => {
+                    const adjacentTiles = path.filter(
+                        tile =>
+                            Math.abs(tile[0] - move[0]) + Math.abs(tile[1] - move[1]) === 1
+                    );
+                    return adjacentTiles.length <= 1; // Ensure the move doesn't connect to more than one existing path tile
+                });
+        
+                // Check if the goal is adjacent
+                const goalAdjacentMove = nonBranchingMoves.find(
+                    move => Math.abs(move[0] - goal[0]) + Math.abs(move[1] - goal[1]) === 1
+                );
+        
+                if (goalAdjacentMove) {
+                    // Add the tile adjacent to the goal
+                    path.push(goalAdjacentMove);
+        
+                    // Add the goal tile to the path and terminate
+                    path.push(goal);
+                    return path;
+                }
+        
+                // If no valid moves remain, break the loop (shouldn't happen with proper constraints)
+                if (nonBranchingMoves.length === 0) {
+                    console.error("No valid moves available to continue the path.");
+                    break;
+                }
+        
+                // Randomly pick a move, with a bias toward the goal
+                const nextMove = nonBranchingMoves[Math.floor(Math.random() * nonBranchingMoves.length)];
+        
+                // Update the current position and add it to the path
+                current = nextMove;
+                path.push(current);
+            }
+            retries++;
         }
-
-        return path;
+        return [];
     };
 
     const placeRail = (rail_type: RailType): void => {
