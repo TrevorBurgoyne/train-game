@@ -1,4 +1,5 @@
 import { FC, useState, useEffect } from 'react';
+import Keybinds from './Keybinds';
 import Tile, { TileProps, RailType, Coordinate, getDirection } from './Tile';
 import { getKeybind } from '../utils/keybind_utils';
 
@@ -7,6 +8,7 @@ const GRID_SIZE = 4;
 document.documentElement.style.setProperty('--grid-size', GRID_SIZE.toString());
 
 const GameBoard: FC = () => {
+    const [isEditingKeybind, setIsEditingKeybind] = useState(false); // Track if keybinds are being edited
     const [grid, setGrid] = useState<TileProps[][]>([]);
     const [goalTile, setGoalTile] = useState<Coordinate | null>(null);
     const [isGameOver, setIsGameOver] = useState(false);
@@ -16,7 +18,7 @@ const GameBoard: FC = () => {
 
     useEffect(() => {
         const handleKeyPress = (event: KeyboardEvent) => {
-            if (isGameOver) return;
+            if (isEditingKeybind || isGameOver) return;
     
             switch (event.key) {
                 case getKeybind('left'):
@@ -48,7 +50,7 @@ const GameBoard: FC = () => {
         return () => {
             window.removeEventListener('keydown', handleKeyPress);
         };
-    }, [grid, goalTile, isGameOver, path, pathIndex, autoRestart]);
+    }, [isEditingKeybind, grid, goalTile, isGameOver, path, pathIndex, autoRestart]);
 
     useEffect(() => {
         initializeGame();
@@ -234,6 +236,7 @@ const GameBoard: FC = () => {
 
     return (
         <div>
+            <Keybinds onEditingKeybind={setIsEditingKeybind} />
             <div className="game-board">
                 {grid.map((row, rowIndex) => (
                     <div key={rowIndex} className="grid-row">
