@@ -147,8 +147,54 @@ h1 {
     right: 25%; /* Position the second rail */
 }
 
-/* Single curved rail */
-.tile.rail.left::before {
+/* Straight rail */
+.tile.rail.left {
+    position: relative;
+
+    /* Curved beams using radial-gradient */
+    background: 
+        /* Curved rails and angled beams */
+        /* First beam (horizontal) */
+        linear-gradient(
+            0deg, /* Horizontal beam */
+            transparent 10%, /* Space before the beam */
+            #8b4513 10%, /* Beam color */
+            #8b4513 15%, /* Beam thickness */
+            transparent 15% /* Space after the beam */
+        ),
+        /* Second beam */
+        linear-gradient(
+            -35deg, /* Horizontal beam */
+            transparent 40%, /* Space before the beam */
+            #8b4513 40%, /* Beam color */
+            #8b4513 43.5%, /* Beam thickness */
+            transparent 43.5% /* Space after the beam */
+        ),
+        /* Third beam */
+        linear-gradient(
+            -75deg, /* Horizontal beam */
+            transparent 65%, /* Space before the beam */
+            #8b4513 65%, /* Beam color */
+            #8b4513 68.5%, /* Beam thickness */
+            transparent 68.5% /* Space after the beam */
+        ),
+        /* Fourth beam (vertical) */
+        linear-gradient(
+            90deg, /* Vertical beam */
+            transparent 10%, /* Space before the beam */
+            #8b4513 10%, /* Beam color */
+            #8b4513 14.5%, /* Beam thickness */
+            transparent 14.5% /* Space after the beam */
+        );
+
+    background-size: 100% 100%;
+    background-position: bottom left;
+    background-repeat: no-repeat;
+}
+
+/* Left curved rail */
+.tile.rail.left::before,
+.tile.rail.left::after {
     content: '';
     position: absolute;
     width: 35%; /* Half the width of the tile */
@@ -159,4 +205,10 @@ h1 {
     left: 0; /* Align to the left side */
     bottom: 0; /* Align to the bottom side */
     border-width: 10px 10px 0 0; /* Only show the top and right borders */
+}
+
+.tile.rail.left::after {
+    /* Add a second rail parallel to the first one */
+    width: 75%;
+    height: 75%;
 }
