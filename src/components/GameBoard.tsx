@@ -2,6 +2,7 @@ import { FC, useState, useEffect } from 'react';
 import Keybinds from './Keybinds';
 import Tile, { TileProps, RailType, Coordinate, getDirection } from './Tile';
 import { getKeybind } from '../utils/keybind_utils';
+import '../styles/GameBoard.css';
 
 const GRID_SIZE = 4;
 // Set --grid-size for css grid
