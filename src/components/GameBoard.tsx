@@ -1,6 +1,5 @@
-import React, { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect } from 'react';
 import Tile, { TileProps, RailType, Coordinate, getDirection } from './Tile';
-import PathValidator from '../utils/PathValidator'; // Ensure correct import
 
 const GRID_SIZE = 4;
 
@@ -77,6 +76,7 @@ const GameBoard: FC = () => {
         // Calculate the direction we're moving
         const prevPosition = path[pathIndex - 1];
         const currentPosition = path[pathIndex];
+        const nextPosition = path[pathIndex + 1];
         const direction = getDirection(prevPosition, currentPosition);
     
         // Update the grid to mark the user's rail
@@ -91,16 +91,33 @@ const GameBoard: FC = () => {
             )
         );
 
+        // Determine the correct rail_type for the currentPosition
+        // If the next direction is the same as the current direction, the rail should be straight
+        const nextDirection = getDirection(currentPosition, nextPosition);
+        let correctRailType: RailType;
+        if (nextDirection === direction) {
+            correctRailType = 'straight';
+        } else if (
+            (direction === 'north' && nextDirection === 'east') ||
+            (direction === 'east' && nextDirection === 'south') ||
+            (direction === 'south' && nextDirection === 'west') ||
+            (direction === 'west' && nextDirection === 'north')
+        ) {
+            correctRailType = 'right';
+        } else {
+            correctRailType = 'left';
+        }
+    
+        if (rail_type !== correctRailType) {
+            setIsGameOver(true);
+            alert('Game Over! You made an invalid move.');
+        } else if (nextPosition[0] === goalTile[0] && nextPosition[1] === goalTile[1]) {
+            alert('Congratulations! You completed the path!');
+            setIsGameOver(true);
+        }
+
         // Increment the path index
         setPathIndex(pathIndex + 1);
-    
-        // if (!PathValidator.validatePath(startTile, goalTile)) {
-        //     setIsGameOver(true);
-        //     alert('Game Over! You made an invalid move.');
-        // } else if (nextPosition[0] === goalTile[0] && nextPosition[1] === goalTile[1]) {
-        //     alert('Congratulations! You completed the path!');
-        //     setIsGameOver(true);
-        // }
     };
 
     return (
