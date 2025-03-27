@@ -153,42 +153,42 @@ h1 {
 
     /* Curved beams using radial-gradient */
     background: 
-        /* Curved rails and angled beams */
+        /* Angled beams */
         /* First beam (horizontal) */
         linear-gradient(
             0deg, /* Horizontal beam */
-            transparent 10%, /* Space before the beam */
-            #8b4513 10%, /* Beam color */
-            #8b4513 15%, /* Beam thickness */
-            transparent 15% /* Space after the beam */
+            transparent 0%, /* Space before the beam */
+            #8b4513 0%, /* Beam color */
+            #8b4513 5%, /* Beam thickness */
+            transparent 5% /* Space after the beam */
         ),
         /* Second beam */
         linear-gradient(
-            -35deg, /* Horizontal beam */
-            transparent 40%, /* Space before the beam */
-            #8b4513 40%, /* Beam color */
-            #8b4513 43.5%, /* Beam thickness */
-            transparent 43.5% /* Space after the beam */
+            -30deg, /* Horizontal beam */
+            transparent 35%, /* Space before the beam */
+            #8b4513 35%, /* Beam color */
+            #8b4513 38.5%, /* Beam thickness */
+            transparent 38.5% /* Space after the beam */
         ),
         /* Third beam */
         linear-gradient(
-            -75deg, /* Horizontal beam */
-            transparent 65%, /* Space before the beam */
-            #8b4513 65%, /* Beam color */
-            #8b4513 68.5%, /* Beam thickness */
-            transparent 68.5% /* Space after the beam */
+            -60deg, /* Horizontal beam */
+            transparent 60%, /* Space before the beam */
+            #8b4513 60%, /* Beam color */
+            #8b4513 64%, /* Beam thickness */
+            transparent 64% /* Space after the beam */
         ),
         /* Fourth beam (vertical) */
         linear-gradient(
             90deg, /* Vertical beam */
-            transparent 10%, /* Space before the beam */
-            #8b4513 10%, /* Beam color */
-            #8b4513 14.5%, /* Beam thickness */
-            transparent 14.5% /* Space after the beam */
+            transparent 0%, /* Space before the beam */
+            #8b4513 0%, /* Beam color */
+            #8b4513 4.5%, /* Beam thickness */
+            transparent 4.5% /* Space after the beam */
         );
 
-    background-size: 100% 100%;
-    background-position: bottom left;
+    background-size: 80% 80%;
+    background-position: center;
     background-repeat: no-repeat;
 }
 
