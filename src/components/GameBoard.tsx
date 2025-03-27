@@ -17,6 +17,8 @@ const GameBoard: FC = () => {
     }, []);
 
     const initializeGame = (): void => {
+        setIsGameOver(false);
+
         // Generate a new grid of obstacles
         const newGrid: TileProps[][] = Array.from({ length: GRID_SIZE }, () =>
             Array.from({ length: GRID_SIZE }, () => ({ tile_type: 'obstacle' }))
@@ -140,6 +142,9 @@ const GameBoard: FC = () => {
                 <button onClick={() => placeRail('left')} disabled={isGameOver}>Left</button>
                 <button onClick={() => placeRail('straight')} disabled={isGameOver}>Straight</button>
                 <button onClick={() => placeRail('right')} disabled={isGameOver}>Right</button>
+            </div>
+            <div className="controls">
+                <button onClick={initializeGame}>New Game</button>
             </div>
         </div>
     );
