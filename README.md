@@ -1,10 +1,10 @@
 # React Path Game
 
 ## Overview
-The React Path Game is a fun and interactive game where players navigate a 3x3 grid of tiles. The objective is to create a continuous path from a randomly selected start tile to a goal tile by filling in empty tiles with train tracks. Players must choose the correct tiles in order to win the game.
+The Train Game is a fun and interactive game where players navigate a grid of tiles. The objective is to create a continuous path from a randomly selected start tile to a goal tile by filling in empty tiles with train tracks. Players must choose the correct tiles in order to win the game.
 
 ## Features
-- 3x3 grid of tiles
+- 4x4 grid of tiles
 - Randomly selected start and goal tiles
 - Path validation to ensure correct tile selection
 - User interaction to fill tiles with train tracks (straight, left turn, right turn)
