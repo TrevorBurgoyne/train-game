@@ -1,32 +1,38 @@
 .keybinds-container {
+    position: absolute; /* Position it relative to the screen */
+    top: 10px; /* Distance from the top of the screen */
+    right: 10px; /* Distance from the right of the screen */
+    width: 200px; /* Shrink the width */
     border: 1px solid #ccc;
     border-radius: 5px;
-    margin: 10px;
     overflow: hidden;
-    transition: height 0.3s ease;
+    transition: height 0.3s ease, width 0.3s ease;
+    z-index: 1000; /* Ensure it appears above other elements */
 }
 
 .keybinds-container.minimized {
     height: 40px; /* Only show the header when minimized */
     cursor: pointer;
+    width: 150px; /* Shrink width when minimized */
 }
 
 .keybinds-container.expanded {
     height: auto; /* Expand to fit the content */
+    width: 200px; /* Full width when expanded */
 }
 
 .keybinds-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
+    padding: 5px 10px; /* Adjust padding to fit smaller size */
     background-color: #f9f9f9;
     font-weight: bold;
     cursor: pointer;
 }
 
 .keybinds-header .arrow {
-    font-size: 14px;
+    font-size: 12px; /* Shrink arrow size */
     transition: transform 0.3s ease;
 }
 
@@ -35,7 +41,7 @@
 }
 
 .keybinds-list {
-    padding: 10px;
+    padding: 5px; /* Reduce padding for compactness */
     background-color: #fff;
 }
 
@@ -46,13 +52,13 @@
 }
 
 .keybind-item button {
-    padding: 5px 10px;
-    font-size: 14px;
+    padding: 3px 8px; /* Shrink button size */
+    font-size: 12px; /* Reduce font size */
     cursor: pointer;
 }
 
 .keybind-item input {
-    padding: 5px;
-    font-size: 14px;
-    width: 50px;
+    padding: 3px;
+    font-size: 12px; /* Reduce font size */
+    width: 40px; /* Shrink input width */
 }

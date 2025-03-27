@@ -26,6 +26,7 @@ const Keybinds: React.FC = () => {
                                 <input
                                     type="text"
                                     value={key}
+                                    readOnly
                                     onKeyDown={(e) => handleKeybindChange(action, e)}
                                     onBlur={() => setEditingKeybind(null)}
                                 />
