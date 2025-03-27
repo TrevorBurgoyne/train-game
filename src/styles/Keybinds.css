@@ -5,7 +5,7 @@
     width: 200px; /* Shrink the width */
     border: 1px solid #ccc;
     border-radius: 5px;
-    overflow: hidden;
+    overflow: visible; /* Allow content to overflow if necessary */
     transition: height 0.3s ease, width 0.3s ease;
     z-index: 1000; /* Ensure it appears above other elements */
 }
@@ -43,12 +43,15 @@
 .keybinds-list {
     padding: 5px; /* Reduce padding for compactness */
     background-color: #fff;
+    overflow: visible; /* Ensure no content is clipped */
 }
 
 .keybind-item {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: 5px;
+    overflow: visible; /* Prevent clipping of child elements */
 }
 
 .keybind-item button {
@@ -60,5 +63,7 @@
 .keybind-item input {
     padding: 3px;
     font-size: 12px; /* Reduce font size */
-    width: 40px; /* Shrink input width */
+    width: 60px; /* Increase width to ensure text fits */
+    overflow: visible; /* Ensure text is not clipped */
+    box-sizing: border-box; /* Include padding in the width */
 }
