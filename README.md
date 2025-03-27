@@ -1,4 +1,5 @@
-# React Path Game
+# Train Game
+https://trevorburgoyne.github.io/train-game/
 
 ## Overview
 The Train Game is a fun and interactive game where players navigate a grid of tiles. The objective is to create a continuous path from a randomly selected start tile to a goal tile by filling in empty tiles with train tracks. Players must choose the correct tiles in order to win the game.
@@ -8,6 +9,7 @@ The Train Game is a fun and interactive game where players navigate a grid of ti
 - Randomly selected start and goal tiles
 - Path validation to ensure correct tile selection
 - User interaction to fill tiles with train tracks (straight, left turn, right turn)
+- Configurable keybinds for convenient play
 
 
 ## Installation
