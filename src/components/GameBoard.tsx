@@ -157,9 +157,15 @@ const GameBoard: FC = () => {
                 ))}
             </div>
             <div className="controls">
-                <button onClick={() => placeRail('left')} disabled={isGameOver}>Left</button>
-                <button onClick={() => placeRail('straight')} disabled={isGameOver}>Straight</button>
-                <button onClick={() => placeRail('right')} disabled={isGameOver}>Right</button>
+                <button onClick={() => placeRail('left')} disabled={isGameOver}>
+                    <div className="tile rail curved left"></div>
+                </button>
+                <button onClick={() => placeRail('straight')} disabled={isGameOver}>
+                    <div className="tile rail straight"></div>
+                </button>
+                <button onClick={() => placeRail('right')} disabled={isGameOver}>
+                    <div className="tile rail curved right"></div>
+                </button>
             </div>
             <div className="controls">
                 <button onClick={initializeGame}>New Game</button>
