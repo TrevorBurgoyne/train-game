@@ -220,3 +220,35 @@ h1 {
     width: 75%;
     height: 75%;
 }
+
+/* Overlay for invalid tiles */
+.invalid-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none; /* Ensure it doesn't block interactions */
+    z-index: 2; /* Ensure it appears above other content */
+}
+
+.invalid-overlay::before,
+.invalid-overlay::after {
+    content: '';
+    position: absolute;
+    width: 80%;
+    height: 10%; /* Thickness of the "X" lines */
+    background-color: red;
+    transform-origin: center;
+}
+
+.invalid-overlay::before {
+    transform: rotate(45deg);
+}
+
+.invalid-overlay::after {
+    transform: rotate(-45deg);
+}

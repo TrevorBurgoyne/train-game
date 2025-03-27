@@ -19,7 +19,7 @@ const GameBoard: FC = () => {
     const initializeGame = (): void => {
         // Generate a new grid of obstacles
         const newGrid: TileProps[][] = Array.from({ length: GRID_SIZE }, () =>
-            Array.from({ length: GRID_SIZE }, () => ({ tile_type: 'obstacle', rail_type: null, direction: null }))
+            Array.from({ length: GRID_SIZE }, () => ({ tile_type: 'obstacle' }))
         );
         const start = getRandomEdgeTile();
         const goal = getRandomEdgeTile(start);
@@ -38,7 +38,7 @@ const GameBoard: FC = () => {
                     return { tile_type: 'goal', rail_type: 'straight', direction: getDirection(path[path.length - 2], goal) };
                 }
                 if (path.some(p => p[0] === rowIndex && p[1] === colIndex)) {
-                    return { tile_type: 'empty', rail_type: null, direction: null };
+                    return { tile_type: 'empty' };
                 }
                 return tile_props;
             })
@@ -78,21 +78,8 @@ const GameBoard: FC = () => {
         const currentPosition = path[pathIndex];
         const nextPosition = path[pathIndex + 1];
         const direction = getDirection(prevPosition, currentPosition);
-    
-        // Update the grid to mark the user's rail
-        setGrid(prevGrid =>
-            prevGrid.map((row, rowIndex) =>
-                row.map((tile_props, colIndex) => {
-                    if (rowIndex === currentPosition[0] && colIndex === currentPosition[1]) {
-                        return { tile_type: 'rail', rail_type: rail_type, direction: direction };
-                    }
-                    return tile_props;
-                })
-            )
-        );
 
         // Determine the correct rail_type for the currentPosition
-        // If the next direction is the same as the current direction, the rail should be straight
         const nextDirection = getDirection(currentPosition, nextPosition);
         let correctRailType: RailType;
         if (nextDirection === direction) {
@@ -107,12 +94,24 @@ const GameBoard: FC = () => {
         } else {
             correctRailType = 'left';
         }
-    
-        if (rail_type !== correctRailType) {
+
+        const invalidMove = rail_type !== correctRailType;
+
+        // Update the grid to mark the user's rail
+        setGrid(prevGrid =>
+            prevGrid.map((row, rowIndex) =>
+                row.map((tile_props, colIndex) => {
+                    if (rowIndex === currentPosition[0] && colIndex === currentPosition[1]) {
+                        return { tile_type: 'rail', rail_type: rail_type, direction: direction, is_invalid: invalidMove };
+                    }
+                    return tile_props;
+                })
+            )
+        );
+
+        if (invalidMove) {
             setIsGameOver(true);
-            alert('Game Over! You made an invalid move.');
         } else if (nextPosition[0] === goalTile[0] && nextPosition[1] === goalTile[1]) {
-            alert('Congratulations! You completed the path!');
             setIsGameOver(true);
         }
 
@@ -131,6 +130,7 @@ const GameBoard: FC = () => {
                                 tile_type={tile.tile_type}
                                 rail_type={tile.rail_type}
                                 direction={tile.direction}
+                                is_invalid={tile.is_invalid}
                             />
                         ))}
                     </div>

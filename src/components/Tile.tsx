@@ -6,8 +6,9 @@ export type Direction = 'north' | 'east' | 'south' | 'west';
 export type Coordinate = [number, number];
 export type TileProps = {
     tile_type: TileType;
-    rail_type: RailType | null;
-    direction: Direction | null;
+    rail_type?: RailType;
+    direction?: Direction;
+    is_invalid?: boolean;
 };
 
 // Function to get the direction based on a dest and source coordinate
@@ -19,7 +20,7 @@ export const getDirection = (source: Coordinate, dest: Coordinate): Direction =>
     throw new Error('Invalid coordinates');
 }
 
-const Tile: FC<TileProps> = ({tile_type, rail_type = null, direction = null }) => {
+const Tile: FC<TileProps> = ({tile_type, rail_type = null, direction = null, is_invalid = false}) => {
     // Add 'rail' tyle to the goal
     let tile_class: String = tile_type;
     if (tile_type === 'goal' || tile_type === 'start') {
@@ -33,9 +34,9 @@ const Tile: FC<TileProps> = ({tile_type, rail_type = null, direction = null }) =
     }
     
     return (
-        <div
-            className={`tile ${tile_class} ${rail_class} ${direction}`}
-        />
+        <div className={`tile ${tile_class} ${rail_class} ${direction}`}>
+            {is_invalid && <div className="invalid-overlay"></div>}
+        </div>
     );
 };
 
