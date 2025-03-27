@@ -77,22 +77,19 @@ h1 {
 
 /* Base rail rotation (north is the default, no rotation) */
 .tile.rail.north {
-    transform: rotate(0deg);
+    rotate: 0;
 }
 
-/* Rotate 90 degrees clockwise for east */
 .tile.rail.east {
-    transform: rotate(90deg);
+    rotate: -90deg;
 }
 
-/* Rotate 180 degrees for south */
 .tile.rail.south {
-    transform: rotate(180deg);
+    rotate: -180deg;
 }
 
-/* Rotate 270 degrees clockwise (or -90 degrees) for west */
 .tile.rail.west {
-    transform: rotate(270deg);
+    rotate: -270deg;
 }
 
 /* Ensure the rotation origin is the center of the tile */
@@ -100,11 +97,11 @@ h1 {
     transform-origin: center;
 }
 
-/* Straight rail */
+/* Straight rail and beams */
 .tile.rail.straight {
     position: relative;
 
-    /* Horizontal beams using linear-gradient */
+    /* Horizontal wooden beams using linear-gradient */
     background: linear-gradient(
         to bottom,
         transparent 10%, /* Top white space */
@@ -129,7 +126,7 @@ h1 {
     background-repeat: no-repeat; /* Prevent the gradient from repeating */
 }
 
-/* Vertical rails */
+/* Vertical steel rails */
 .tile.rail.straight::before,
 .tile.rail.straight::after {
     content: '';
@@ -147,11 +144,22 @@ h1 {
     right: 25%; /* Position the second rail */
 }
 
-/* Straight rail */
-.tile.rail.left {
+
+/* For left turns, no transformation is needed */
+.tile.rail.curved.left {
+    transform: none;
+}
+
+/* For right turns, mirror the curved rail */
+.tile.rail.curved.right {
+    transform: scaleX(-1);
+}
+
+/* Curved rail */
+.tile.rail.curved {
     position: relative;
 
-    /* Curved beams using radial-gradient */
+    /* Angled wooden beams using linear-gradient at an angle */
     background: 
         /* Angled beams */
         /* First beam (horizontal) */
@@ -192,9 +200,9 @@ h1 {
     background-repeat: no-repeat;
 }
 
-/* Left curved rail */
-.tile.rail.left::before,
-.tile.rail.left::after {
+/* Curved rail steel beams */
+.tile.rail.curved::before,
+.tile.rail.curved::after {
     content: '';
     position: absolute;
     width: 35%; /* Half the width of the tile */
@@ -207,7 +215,7 @@ h1 {
     border-width: 10px 10px 0 0; /* Only show the top and right borders */
 }
 
-.tile.rail.left::after {
+.tile.rail.curved::after {
     /* Add a second rail parallel to the first one */
     width: 75%;
     height: 75%;

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-export type TileType = 'obstacle' | 'empty' | 'goal' | 'rail';
+export type TileType = 'obstacle' | 'empty' | 'start' | 'goal' | 'rail';
 export type RailType = 'straight' | 'left' | 'right';
 export type Direction = 'north' | 'east' | 'south' | 'west';
 export type Coordinate = [number, number];
@@ -21,9 +21,21 @@ export const getDirection = (source: Coordinate, dest: Coordinate): Direction =>
 }
 
 const Tile: FC<TileProps> = ({tile_type, rail_type = null, direction = null }) => {
+    // Add 'rail' tyle to the goal
+    let tile_class: String = tile_type;
+    if (tile_type === 'goal' || tile_type === 'start') {
+        tile_class = `${tile_type} rail`;
+    }
+    
+    // Add 'curved' class if rail_type is not null and not 'straight'
+    let rail_class: String | null = rail_type;
+    if (rail_type !== null && rail_type !== 'straight') {
+        rail_class = `curved ${rail_type}`;
+    }
+    
     return (
         <div
-            className={`tile ${tile_type} ${rail_type} ${direction}`}
+            className={`tile ${tile_class} ${rail_class} ${direction}`}
         />
     );
 };
