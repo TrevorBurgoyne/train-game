@@ -1,6 +1,6 @@
 {
   "name": "train-game",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "A game where players complete a path on a grid of tiles.",
   "main": "src/index.tsx",
   "scripts": {
