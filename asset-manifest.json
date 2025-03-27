@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/train-game/static/css/main.b8618b0c.css",
-    "main.js": "/train-game/static/js/main.8e94cdcd.js",
+    "main.css": "/train-game/static/css/main.a3cbb631.css",
+    "main.js": "/train-game/static/js/main.98f652a1.js",
     "index.html": "/train-game/index.html",
-    "main.b8618b0c.css.map": "/train-game/static/css/main.b8618b0c.css.map",
-    "main.8e94cdcd.js.map": "/train-game/static/js/main.8e94cdcd.js.map"
+    "main.a3cbb631.css.map": "/train-game/static/css/main.a3cbb631.css.map",
+    "main.98f652a1.js.map": "/train-game/static/js/main.98f652a1.js.map"
   },
   "entrypoints": [
-    "static/css/main.b8618b0c.css",
-    "static/js/main.8e94cdcd.js"
+    "static/css/main.a3cbb631.css",
+    "static/js/main.98f652a1.js"
   ]
 }
