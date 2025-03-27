@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import Tree from './obstacles/Tree';
+import Cactus from './obstacles/Cactus';
 import '../styles/Tile.css';
 import '../styles/Rail.css';
 
@@ -39,7 +40,7 @@ const Tile: FC<TileProps> = ({tile_type, rail_type = null, direction = null, is_
     return (
         <div className={`tile ${tile_class} ${rail_class} ${direction}`}>
             {is_invalid && <div className="invalid-overlay"></div>}
-            {tile_type === 'obstacle' && <Tree />}
+            {tile_type === 'obstacle' && <Cactus />}
         </div>
     );
 };
