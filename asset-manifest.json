@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/train-game/static/css/main.fa8feb05.css",
+    "main.js": "/train-game/static/js/main.9a235447.js",
+    "index.html": "/train-game/index.html",
+    "main.fa8feb05.css.map": "/train-game/static/css/main.fa8feb05.css.map",
+    "main.9a235447.js.map": "/train-game/static/js/main.9a235447.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.fa8feb05.css",
+    "static/js/main.9a235447.js"
+  ]
+}
