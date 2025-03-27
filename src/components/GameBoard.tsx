@@ -52,7 +52,16 @@ const GameBoard: FC = () => {
         for (let i = 0; i < GRID_SIZE; i++) {
             edges.push([0, i], [GRID_SIZE - 1, i], [i, 0], [i, GRID_SIZE - 1]);
         }
-        const filteredEdges = edges.filter(tile => !excludeTile || (tile[0] !== excludeTile[0] || tile[1] !== excludeTile[1]));
+    
+        const filteredEdges = edges.filter(tile => {
+            if (!excludeTile) return true;
+    
+            // Calculate Manhattan distance between the current tile and the excluded tile
+            const distance = Math.abs(tile[0] - excludeTile[0]) + Math.abs(tile[1] - excludeTile[1]);
+            // Ensure the tiles don't start too close together
+            return distance >= GRID_SIZE - 1; 
+        });
+    
         return filteredEdges[Math.floor(Math.random() * filteredEdges.length)] as Coordinate;
     };
 
