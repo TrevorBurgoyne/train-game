@@ -1,4 +1,4 @@
-import '../../styles/Tree.css';
+import './Tree.css';
 
 const Tree = () => {
     return (

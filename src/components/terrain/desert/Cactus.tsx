@@ -1,4 +1,4 @@
-import '../../styles/Cactus.css';
+import './Cactus.css';
 
 const Cactus = () => {
     return (

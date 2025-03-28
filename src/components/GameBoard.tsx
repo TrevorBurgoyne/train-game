@@ -60,9 +60,9 @@ const GameBoard: FC = () => {
     const initializeGame = (): void => {
         setIsGameOver(false);
 
-        // Generate a new grid of obstacles
+        // Generate a new grid of just terrain
         const newGrid: TileProps[][] = Array.from({ length: GRID_SIZE }, () =>
-            Array.from({ length: GRID_SIZE }, () => ({ tile_type: 'obstacle' }))
+            Array.from({ length: GRID_SIZE }, () => ({ tile_type: 'terrain' }))
         );
 
         // If we can't generate a path,

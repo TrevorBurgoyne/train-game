@@ -1,11 +1,10 @@
 import { FC } from 'react';
-import Tree from './obstacles/Tree';
-import Cactus from './obstacles/Cactus';
+import Tree from './terrain/forest/Tree';
+import Cactus from './terrain/desert/Cactus';
 import '../styles/Tile.css';
 import '../styles/Rail.css';
-import '../styles/Obstacle.css';
 
-export type TileType = 'obstacle' | 'empty' | 'start' | 'goal' | 'rail';
+export type TileType = 'terrain' | 'empty' | 'start' | 'goal' | 'rail';
 export type RailType = 'straight' | 'left' | 'right';
 export type Direction = 'north' | 'east' | 'south' | 'west';
 export type Coordinate = [number, number];
@@ -41,7 +40,7 @@ const Tile: FC<TileProps> = ({tile_type, rail_type = null, direction = null, is_
     return (
         <div className={`tile ${tile_class} ${rail_class} ${direction}`}>
             {is_invalid && <div className="invalid-overlay"></div>}
-            {tile_type === 'obstacle' && <Cactus />}
+            {tile_type === 'terrain' && <Cactus />}
         </div>
     );
 };
