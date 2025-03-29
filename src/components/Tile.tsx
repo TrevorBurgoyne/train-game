@@ -1,7 +1,5 @@
 import { FC } from 'react';
-import Tree from './terrain/forest/Tree';
-import Cactus from './terrain/desert/Cactus';
-import Sand from './terrain/desert/Sand';
+import { getRandomTerrainComponent } from '../utils/terrain_utils';
 import '../styles/Tile.css';
 import '../styles/Rail.css';
 
@@ -14,6 +12,7 @@ export type TileProps = {
     rail_type?: RailType;
     direction?: Direction;
     is_invalid?: boolean;
+    terrain_subfolder?: string;
 };
 
 // Function to get the direction based on a dest and source coordinate
@@ -25,7 +24,7 @@ export const getDirection = (source: Coordinate, dest: Coordinate): Direction =>
     throw new Error('Invalid coordinates');
 }
 
-const Tile: FC<TileProps> = ({tile_type, rail_type = null, direction = null, is_invalid = false}) => {
+const Tile: FC<TileProps> = ({tile_type, rail_type = null, direction = null, is_invalid = false, terrain_subfolder = null}) => {
     // Add 'rail' tyle to the goal
     let tile_class: String = tile_type;
     if (tile_type === 'goal' || tile_type === 'start') {
@@ -37,11 +36,14 @@ const Tile: FC<TileProps> = ({tile_type, rail_type = null, direction = null, is_
     if (rail_type !== null && rail_type !== 'straight') {
         rail_class = `curved ${rail_type}`;
     }
+
+    // Load the terrain component based on the subfolder and type
+    const TerrainComponent = terrain_subfolder ? getRandomTerrainComponent(terrain_subfolder) : null;
     
     return (
         <div className={`tile ${tile_class} ${rail_class} ${direction}`}>
             {is_invalid && <div className="invalid-overlay"></div>}
-            {tile_type === 'terrain' && <Sand />}
+            {TerrainComponent && <TerrainComponent />}
         </div>
     );
 };

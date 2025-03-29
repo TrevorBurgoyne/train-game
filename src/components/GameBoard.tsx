@@ -2,6 +2,7 @@ import { FC, useState, useEffect } from 'react';
 import Keybinds from './Keybinds';
 import Tile, { TileProps, RailType, Coordinate, getDirection } from './Tile';
 import { getKeybind } from '../utils/keybind_utils';
+import { getRandomTerrainSubfolder } from '../utils/terrain_utils';
 import '../styles/GameBoard.css';
 
 const GRID_SIZE = 4;
@@ -60,9 +61,12 @@ const GameBoard: FC = () => {
     const initializeGame = (): void => {
         setIsGameOver(false);
 
+        // Select a random terrain subfolder to use for all terrain tiles
+        const randomSubfolder = getRandomTerrainSubfolder();
+
         // Generate a new grid of just terrain
         const newGrid: TileProps[][] = Array.from({ length: GRID_SIZE }, () =>
-            Array.from({ length: GRID_SIZE }, () => ({ tile_type: 'terrain' }))
+            Array.from({ length: GRID_SIZE }, () => ({ tile_type: 'terrain', terrain_subfolder: randomSubfolder }))
         );
 
         // If we can't generate a path,
@@ -248,6 +252,7 @@ const GameBoard: FC = () => {
                                 rail_type={tile.rail_type}
                                 direction={tile.direction}
                                 is_invalid={tile.is_invalid}
+                                terrain_subfolder={tile.terrain_subfolder}
                             />
                         ))}
                     </div>
