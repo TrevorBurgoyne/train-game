@@ -3,10 +3,19 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-end;
-    width: 50px;
-    height: 80px;
+    width: 100%;
+    height: 100%;
     position: relative;
+    background: linear-gradient(
+        /* light blue sky */
+        #87ceeb 25%,
+        #b6e9fd 75%,
+        /* light green grass */
+        #3bfc88 75%,
+        #a8d5ba 100%
+    );
+    background-position: center; /* Center the gradient horizontally */
+    background-repeat: no-repeat; /* Prevent the gradient from repeating */
 }
 
 /* Tree canopy (green circular top) */
@@ -17,7 +26,7 @@
     border: 3px solid #388e3c; /* Darker green border for a hand-drawn look */
     border-radius: 50%; /* Circular shape */
     position: absolute;
-    top: 0;
+    top: 18px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
 }
 
