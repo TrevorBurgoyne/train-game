@@ -166,7 +166,7 @@ const GameBoard: FC = () => {
         
                 // If no valid moves remain, break the loop (shouldn't happen with proper constraints)
                 if (nonBranchingMoves.length === 0) {
-                    console.error("No valid moves available to continue the path.");
+                    console.warn(`Path gen failed: try ${retries+1}/${MAX_RETRIES}.`);
                     break;
                 }
         
