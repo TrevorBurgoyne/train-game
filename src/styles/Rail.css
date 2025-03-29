@@ -1,0 +1,145 @@
+/* Ensure the rotation origin is the center of the tile */
+.rail {
+    transform-origin: center;
+}
+
+/* Base rail rotation (north is the default, no rotation) */
+.rail.north {
+    rotate: 0;
+}
+
+.rail.east {
+    rotate: 90deg;
+}
+
+.rail.south {
+    rotate: 180deg;
+}
+
+.rail.west {
+    rotate: 270deg;
+}
+
+/* Straight rail and beams */
+.rail.straight {
+    position: relative;
+
+    /* Horizontal wooden beams using linear-gradient */
+    background: linear-gradient(
+        to bottom,
+        transparent 10%, /* Top white space */
+        #8b4513 10%, /* Beam color */
+        #8b4513 15%, /* Beam thickness */
+        transparent 15%, /* Space between beams */
+        transparent 35%, /* Space before next beam */
+        #8b4513 35%, /* Beam color */
+        #8b4513 40%, /* Beam thickness */
+        transparent 40%, /* Space between beams */
+        transparent 60%, /* Space before next beam */
+        #8b4513 60%, /* Beam color */
+        #8b4513 65%, /* Beam thickness */
+        transparent 65%, /* Space between beams */
+        transparent 85%, /* Space before next beam */
+        #8b4513 85%, /* Beam color */
+        #8b4513 90%, /* Beam thickness */
+        transparent 90% /* Bottom white space */
+    );
+    background-size: 80% 100%; /* Adjust beam width */
+    background-position: center; /* Center the gradient horizontally */
+    background-repeat: no-repeat; /* Prevent the gradient from repeating */
+}
+
+/* Vertical steel rails */
+.rail.straight::before,
+.rail.straight::after {
+    content: '';
+    position: absolute;
+    width: 10px; /* Width of the vertical rails */
+    height: 100%;
+    background-color: gray; /* Rail color */
+}
+
+.rail.straight::before {
+    left: 25%; /* Position the first rail */
+}
+
+.rail.straight::after {
+    right: 25%; /* Position the second rail */
+}
+
+
+/* For left turns, no transformation is needed */
+.rail.curved.left {
+    transform: none;
+}
+
+/* For right turns, mirror the curved rail */
+.rail.curved.right {
+    transform: scaleX(-1);
+}
+
+/* Curved rail */
+.rail.curved {
+    position: relative;
+
+    /* Angled wooden beams using linear-gradient at an angle */
+    background: 
+        /* Angled beams */
+        /* First beam (horizontal) */
+        linear-gradient(
+            0deg, /* Horizontal beam */
+            transparent 0%, /* Space before the beam */
+            #8b4513 0%, /* Beam color */
+            #8b4513 5%, /* Beam thickness */
+            transparent 5% /* Space after the beam */
+        ),
+        /* Second beam */
+        linear-gradient(
+            -30deg, /* Horizontal beam */
+            transparent 35%, /* Space before the beam */
+            #8b4513 35%, /* Beam color */
+            #8b4513 38.5%, /* Beam thickness */
+            transparent 38.5% /* Space after the beam */
+        ),
+        /* Third beam */
+        linear-gradient(
+            -60deg, /* Horizontal beam */
+            transparent 60%, /* Space before the beam */
+            #8b4513 60%, /* Beam color */
+            #8b4513 64%, /* Beam thickness */
+            transparent 64% /* Space after the beam */
+        ),
+        /* Fourth beam (vertical) */
+        linear-gradient(
+            90deg, /* Vertical beam */
+            transparent 0%, /* Space before the beam */
+            #8b4513 0%, /* Beam color */
+            #8b4513 4.5%, /* Beam thickness */
+            transparent 4.5% /* Space after the beam */
+        );
+
+    background-size: 80% 80%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Curved rail steel beams */
+.rail.curved::before,
+.rail.curved::after {
+    content: '';
+    position: absolute;
+    width: 35%; /* Half the width of the tile */
+    height: 35%; /* Half the height of the tile */
+    border: 10px solid gray; /* Rail color */
+    border-radius: 0 50% 0 0; /* Concave curve on the top-right corner */
+    box-sizing: border-box;
+    left: 0; /* Align to the left side */
+    bottom: 0; /* Align to the bottom side */
+    border-width: 10px 10px 0 0; /* Only show the top and right borders */
+}
+
+.rail.curved::after {
+    /* Add a second rail parallel to the first one */
+    width: 75%;
+    height: 75%;
+}

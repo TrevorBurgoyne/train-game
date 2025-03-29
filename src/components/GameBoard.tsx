@@ -2,6 +2,8 @@ import { FC, useState, useEffect } from 'react';
 import Keybinds from './Keybinds';
 import Tile, { TileProps, RailType, Coordinate, getDirection } from './Tile';
 import { getKeybind } from '../utils/keybind_utils';
+import { getRandomTerrainSubfolder, getRandomTerrainComponent } from '../utils/terrain_utils';
+import '../styles/GameBoard.css';
 
 const GRID_SIZE = 4;
 // Set --grid-size for css grid
@@ -59,9 +61,12 @@ const GameBoard: FC = () => {
     const initializeGame = (): void => {
         setIsGameOver(false);
 
-        // Generate a new grid of obstacles
+        // Select a random terrain subfolder to use for all terrain tiles
+        const randomSubfolder = getRandomTerrainSubfolder();
+
+        // Generate a new grid of just terrain
         const newGrid: TileProps[][] = Array.from({ length: GRID_SIZE }, () =>
-            Array.from({ length: GRID_SIZE }, () => ({ tile_type: 'obstacle' }))
+            Array.from({ length: GRID_SIZE }, () => ({ tile_type: 'terrain', TerrainComponent: getRandomTerrainComponent(randomSubfolder) }))
         );
 
         // If we can't generate a path,
@@ -161,7 +166,7 @@ const GameBoard: FC = () => {
         
                 // If no valid moves remain, break the loop (shouldn't happen with proper constraints)
                 if (nonBranchingMoves.length === 0) {
-                    console.error("No valid moves available to continue the path.");
+                    console.warn(`Path gen failed: try ${retries+1}/${MAX_RETRIES}.`);
                     break;
                 }
         
@@ -247,6 +252,7 @@ const GameBoard: FC = () => {
                                 rail_type={tile.rail_type}
                                 direction={tile.direction}
                                 is_invalid={tile.is_invalid}
+                                TerrainComponent={tile.TerrainComponent}
                             />
                         ))}
                     </div>

@@ -1,0 +1,18 @@
+/* Just sand. */
+.sand {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: linear-gradient(
+        135deg,
+        #f4e2c1 25%,
+        #e8d4a8 25%,
+        #e8d4a8 50%,
+        #f4e2c1 50%,
+        #f4e2c1 75%,
+        #e8d4a8 75%
+    );
+    border-radius: 10px;
+    background-position: center; /* Center the gradient horizontally */
+    background-repeat: no-repeat; /* Prevent the gradient from repeating */
+}

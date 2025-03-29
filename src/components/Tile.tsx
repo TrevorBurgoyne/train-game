@@ -1,6 +1,8 @@
 import { FC } from 'react';
+import '../styles/Tile.css';
+import '../styles/Rail.css';
 
-export type TileType = 'obstacle' | 'empty' | 'start' | 'goal' | 'rail';
+export type TileType = 'terrain' | 'empty' | 'start' | 'goal' | 'rail';
 export type RailType = 'straight' | 'left' | 'right';
 export type Direction = 'north' | 'east' | 'south' | 'west';
 export type Coordinate = [number, number];
@@ -9,6 +11,7 @@ export type TileProps = {
     rail_type?: RailType;
     direction?: Direction;
     is_invalid?: boolean;
+    TerrainComponent?: React.FC;
 };
 
 // Function to get the direction based on a dest and source coordinate
@@ -20,7 +23,7 @@ export const getDirection = (source: Coordinate, dest: Coordinate): Direction =>
     throw new Error('Invalid coordinates');
 }
 
-const Tile: FC<TileProps> = ({tile_type, rail_type = null, direction = null, is_invalid = false}) => {
+const Tile: FC<TileProps> = ({tile_type, rail_type = null, direction = null, is_invalid = false, TerrainComponent = null}) => {
     // Add 'rail' tyle to the goal
     let tile_class: String = tile_type;
     if (tile_type === 'goal' || tile_type === 'start') {
@@ -36,6 +39,7 @@ const Tile: FC<TileProps> = ({tile_type, rail_type = null, direction = null, is_
     return (
         <div className={`tile ${tile_class} ${rail_class} ${direction}`}>
             {is_invalid && <div className="invalid-overlay"></div>}
+            {TerrainComponent && <TerrainComponent />}
         </div>
     );
 };
